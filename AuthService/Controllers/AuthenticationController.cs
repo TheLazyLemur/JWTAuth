@@ -38,7 +38,7 @@ namespace AuthService.Controllers
             if (userExists != null)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new ApiResponse {Status = "Error", Message = "User Already Exists"});
+                    new {Status = "Error", Message = "User Already Exists"});
             }
 
             var user = new ApplicationUser
@@ -52,11 +52,11 @@ namespace AuthService.Controllers
             if (result.Succeeded)
             {
                 return StatusCode(StatusCodes.Status201Created,
-                    new ApiResponse {Status = "Success", Message = "User Created Successfully"});
+                    new {Status = "Success", Message = "User Created Successfully"});
             }
 
             return StatusCode(StatusCodes.Status500InternalServerError,
-                new ApiResponse {Status = "Error", Message = "User Creation Failed"});
+                new {Status = "Error", Message = "User Creation Failed"});
         }
 
 
@@ -99,7 +99,7 @@ namespace AuthService.Controllers
             }
 
             return StatusCode(StatusCodes.Status401Unauthorized,
-                new ApiResponse {Status = "Failed", Message = "User Does Not Exist"});
+                new {Status = "Failed", Message = "User Does Not Exist"});
         }
     }
 }
