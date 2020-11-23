@@ -1,0 +1,24 @@
+### Send POST request with json body
+POST http://localhost:5000/api/authentication/register
+Content-Type: application/json
+
+{
+  "userName": "testUser2",
+  "email": "testuser2@demo.com",
+  "password": "StrongPassword@1"
+}
+
+
+### Send POST request with json body
+POST http://localhost:5000/api/authentication/login
+Content-Type: application/json
+
+{
+  "userName": "testUser2",
+  "password": "StrongPassword@1"
+}
+
+###  
+
+GET http://localhost:5000/weatherforecast
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRlc3RVc2VyMiIsImp0aSI6ImQ4MDlkMWYzLWQ5ZmMtNDY3Mi04OTBmLTVlNzMwODM2NzIxZCIsIklkIjoiOGNmN2UwMDktY2U2ZC00NDNhLTk4ZmItZWUxZGMxNjU4YTdmIiwibmJmIjoxNjA2MTY5MjQ1LCJleHAiOjE2MDYxNjkwNjUsImlhdCI6MTYwNjE2OTI0NX0.k5EyoxBDnv6-OZHKhLYb2_O5Ry2YDaRvjhIJwWeH6IY
