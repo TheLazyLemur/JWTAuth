@@ -1,5 +1,5 @@
 ### Send POST request with json body
-POST http://localhost:5000/api/authentication/register
+POST http://localhost:1448/api/authentication/register
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 
 
 ### Send POST request with json body
-POST http://localhost:5000/api/authentication/login
+POST http://localhost:1448/api/authentication/login
 Content-Type: application/json
 
 {
@@ -20,5 +20,10 @@ Content-Type: application/json
 
 ###  
 
-GET http://localhost:5000/weatherforecast
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRlc3RVc2VyMiIsImp0aSI6ImQ4MDlkMWYzLWQ5ZmMtNDY3Mi04OTBmLTVlNzMwODM2NzIxZCIsIklkIjoiOGNmN2UwMDktY2U2ZC00NDNhLTk4ZmItZWUxZGMxNjU4YTdmIiwibmJmIjoxNjA2MTY5MjQ1LCJleHAiOjE2MDYxNjkwNjUsImlhdCI6MTYwNjE2OTI0NX0.k5EyoxBDnv6-OZHKhLYb2_O5Ry2YDaRvjhIJwWeH6IY
+GET http://localhost:1448/api/authentication/verify
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRlc3RVc2VyMiIsImp0aSI6IjJmM2I4NjM4LTE0M2QtNDQ0MS05Y2JhLTAyODMyZWRmODIyYiIsIklkIjoiOGNmN2UwMDktY2U2ZC00NDNhLTk4ZmItZWUxZGMxNjU4YTdmIiwibmJmIjoxNjA2MjAwNTg2LCJleHAiOjE2MDYyMTEzODYsImlhdCI6MTYwNjIwMDU4Nn0.1Sz0PLGMBce3_7-IMlHyewZ9Y7glfsbFRVGdchenrT8
+
+###  
+
+GET http://localhost:1448/weatherforecast
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRlc3RVc2VyMiIsImp0aSI6IjYzZjIyZTNiLWRkNTQtNDVjYi04MDU1LTZiZTQ1MjE3NzcxOCIsIklkIjoiOGNmN2UwMDktY2U2ZC00NDNhLTk4ZmItZWUxZGMxNjU4YTdmIiwibmJmIjoxNjA2MTk3NTc5LCJleHAiOjE2MDYyMDgzNzksImlhdCI6MTYwNjE5NzU3OX0.QFBwuLQ8_7i1sQ7Egha8R6oW3iA4N9Vtbl7q17ojxnE

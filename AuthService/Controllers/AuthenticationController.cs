@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AuthService.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -65,41 +66,49 @@ namespace AuthService.Controllers
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            
+            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+                return StatusCode(StatusCodes.Status401Unauthorized,
+                    new {Status = "Failed", Message = "User Does Not Exist"});
+                    
+            var userRole = await _userManager.GetRolesAsync(user);
+
+            var claims = new List<Claim>
             {
-                var userRole = await _userManager.GetRolesAsync(user);
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("Id", user.Id)
+            };
 
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim("Id", user.Id)
-                };
-
-                foreach (var role in userRole)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, role));
-                }
-
-                var issuerSigningKey =
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:IssuerSigningKey"]));
-
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.Now.AddHours(+3),
-                    SigningCredentials =
-                        new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256Signature)
-                };
-
-                var token = new JwtSecurityTokenHandler().CreateToken(tokenDescriptor);
-                var retToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-                return StatusCode(StatusCodes.Status200OK, new {token = retToken});
+            foreach (var role in userRole)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            return StatusCode(StatusCodes.Status401Unauthorized,
-                new {Status = "Failed", Message = "User Does Not Exist"});
+            var issuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:IssuerSigningKey"]));
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddHours(+3),
+                SigningCredentials =
+                    new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = new JwtSecurityTokenHandler().CreateToken(tokenDescriptor);
+            var retToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return StatusCode(StatusCodes.Status200OK, new {token = retToken});
+
+        }
+
+        [Route("Verify")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> VerifyToken()
+        {
+            return Ok();
         }
     }
 }
