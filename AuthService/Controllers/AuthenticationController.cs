@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AuthService.Model;
+using AuthService.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -66,11 +67,12 @@ namespace AuthService.Controllers
         public async Task<IActionResult> Login()
         {
             string basicAuthHeader = HttpContext.Request.Headers["Authorization"];
-            var parsed = basicAuthHeader.Replace("Bearer ", "");
-            Console.WriteLine(parsed);
-            
-            var username = parsed.Split(":")[0];
-            var password = parsed.Split(":")[1];
+            var encodedString = basicAuthHeader.Split(" ")[1];
+            var decodedString = UtilityFunctions.DecodeBase64String(encodedString);
+
+            var passwordAndUserName = decodedString.Split(":");
+            var username = passwordAndUserName[0];
+            var password = passwordAndUserName[1];
             
             var user = await _userManager.FindByNameAsync(username);
             
