@@ -12,11 +12,7 @@ Content-Type: application/json
 ### Send POST request with json body
 POST http://localhost:1448/api/authentication/login
 Content-Type: application/json
-
-{
-  "userName": "testUser2",
-  "password": "StrongPassword@1"
-}
+Authorization: Basic testUser2:StrongPassword@1 
 
 ###  
 

@@ -22,6 +22,6 @@ namespace AuthService
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).AddHealthActuator();
+                }).AddHealthActuator().AddInfoActuator();
     }
 }

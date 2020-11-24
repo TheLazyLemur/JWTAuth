@@ -63,11 +63,18 @@ namespace AuthService.Controllers
 
         [Route("Login")]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login()
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            string basicAuthHeader = HttpContext.Request.Headers["Authorization"];
+            var parsed = basicAuthHeader.Replace("Bearer ", "");
+            Console.WriteLine(parsed);
             
-            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+            var username = parsed.Split(":")[0];
+            var password = parsed.Split(":")[1];
+            
+            var user = await _userManager.FindByNameAsync(username);
+            
+            if (user == null || !await _userManager.CheckPasswordAsync(user, password))
                 return StatusCode(StatusCodes.Status401Unauthorized,
                     new {Status = "Failed", Message = "User Does Not Exist"});
                     
