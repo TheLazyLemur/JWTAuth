@@ -37,11 +37,15 @@ namespace AuthService.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var userExists = await _userManager.FindByNameAsync(model.UserName);
-            if (userExists != null)
+            var userEmailExists = await _userManager.FindByEmailAsync(model.Email);
+
+            if (userExists != null || userEmailExists != null)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new {Status = "Error", Message = "User Already Exists"});
             }
+
+            var x = await _userManager.FindByEmailAsync("");
 
             var user = new ApplicationUser
             {
@@ -49,7 +53,7 @@ namespace AuthService.Controllers
                 UserName = model.UserName,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
-            
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -73,20 +77,21 @@ namespace AuthService.Controllers
             var passwordAndUserName = decodedString.Split(":");
             var username = passwordAndUserName[0];
             var password = passwordAndUserName[1];
-            
-            var user = await _userManager.FindByNameAsync(username);
-            
+
+            var user = await _userManager.FindByNameAsync(username) ?? await _userManager.FindByEmailAsync(username);
+
             if (user == null || !await _userManager.CheckPasswordAsync(user, password))
                 return StatusCode(StatusCodes.Status401Unauthorized,
                     new {Status = "Failed", Message = "User Does Not Exist"});
-                    
+
             var userRole = await _userManager.GetRolesAsync(user);
 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("Id", user.Id)
+                new Claim("Id", user.Id),
+                new Claim(ClaimTypes.Role, "Admin")
             };
 
             foreach (var role in userRole)
@@ -109,13 +114,12 @@ namespace AuthService.Controllers
             var retToken = new JwtSecurityTokenHandler().WriteToken(token);
 
             return StatusCode(StatusCodes.Status200OK, new {token = retToken});
-
         }
 
-        [Route("Verify")]
-        [Authorize]
+        [Route("Verifying")]
+        [Authorize (Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> VerifyToken()
+        public IActionResult VerifyToken()
         {
             return Ok();
         }

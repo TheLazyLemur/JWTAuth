@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Common.Hosting;
 using Steeltoe.Management.Endpoint;
 
 namespace AuthService
@@ -19,9 +20,7 @@ namespace AuthService
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                }).AddHealthActuator().AddInfoActuator();
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); }).AddHealthActuator()
+                .AddInfoActuator();
     }
 }

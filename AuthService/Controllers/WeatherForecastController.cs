@@ -11,7 +11,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace AuthService.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase

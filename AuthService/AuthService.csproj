@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,10 +13,31 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
+    <PackageReference Include="Steeltoe.Common.Hosting" Version="3.0.1" />
+    <PackageReference Include="Steeltoe.Discovery.ClientCore" Version="3.0.1" />
+    <PackageReference Include="Steeltoe.Discovery.Consul" Version="3.0.1" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Version="3.0.1" />
   </ItemGroup>
 
 
+  <ItemGroup>
+    <Reference Include="AuthLib">
+      <HintPath>".\AuthLibrary\AuthLib.dll"</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="AuthLibrary\AuthLib.deps.json" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\AuthLibrary\AuthLibrary.csproj" />
+  </ItemGroup>
+    
 </Project>
