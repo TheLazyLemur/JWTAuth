@@ -23,21 +23,4 @@
     <PackageReference Include="Steeltoe.Management.EndpointCore" Version="3.0.1" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Reference Include="AuthLib">
-      <HintPath>".\AuthLibrary\AuthLib.dll"</HintPath>
-    </Reference>
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="AuthLibrary\AuthLib.deps.json" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\AuthLibrary\AuthLibrary.csproj" />
-  </ItemGroup>
-    
 </Project>

@@ -41,7 +41,7 @@ namespace AuthService.Controllers
                 })
                 .ToArray();
         }
-
+        
         private void HandleWebToken()
         {
             string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -54,3 +54,5 @@ namespace AuthService.Controllers
         }
     }
 }
+
+
