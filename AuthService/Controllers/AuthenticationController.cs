@@ -80,18 +80,21 @@ namespace AuthService.Controllers
 
             var user = await _userManager.FindByNameAsync(username) ?? await _userManager.FindByEmailAsync(username);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, password))
+            var isAuthorized = await _userManager.CheckPasswordAsync(user, password);
+            if (isAuthorized == false || user == null)
+            {
                 return StatusCode(StatusCodes.Status401Unauthorized,
                     new {Status = "Failed", Message = "User Does Not Exist"});
-
+            }
+            
             var userRole = await _userManager.GetRolesAsync(user);
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("Id", user.Id),
-                new Claim(ClaimTypes.Role, "Admin")
+                new(ClaimTypes.Name, user.UserName),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new("Id", user.Id),
+                new(ClaimTypes.Role, "Admin")
             };
 
             foreach (var role in userRole)
