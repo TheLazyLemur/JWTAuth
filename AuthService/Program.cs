@@ -1,13 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Steeltoe.Common.Hosting;
-using Steeltoe.Management.Endpoint;
 
 namespace AuthService
 {
@@ -23,8 +15,6 @@ namespace AuthService
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-                .AddHealthActuator()
-                .AddInfoActuator();
+                });
     }
 }

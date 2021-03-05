@@ -13,5 +13,8 @@ namespace AuthService.Model
 
         [Required(ErrorMessage = "Password Is Required")]
         public string Password { get; set; }
+        
+        [Required(ErrorMessage = "A user has to belong to an organisation.")]
+        public string OrganisationId { get; set; }
     }
 }

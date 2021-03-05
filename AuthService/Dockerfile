@@ -1,13 +1,12 @@
 # Build project dlls
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
+FROM madebyeden.azurecr.io/dotnet_ubuntu:buildimage AS build-env
 WORKDIR /app
 COPY *.csproj ./
-RUN dotnet restore
 COPY . ./
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o out --self-contained false
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/sdk:5.0
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine-amd64
 ENV TZ Africa/Johannesburg
 WORKDIR /home
 WORKDIR /app
